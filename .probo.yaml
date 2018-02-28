@@ -11,8 +11,6 @@ steps:
     databaseUpdates: false
     revertFeatures: false
     clearCaches: true
-    phpIniOptions:
-      curl.cainfo: /root/cacert.pem
   - name: Generate login link.
     command: "drush --root='/var/www/html/' uli"
   - name: Test BUILD_URL VAR.
