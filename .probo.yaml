@@ -1,8 +1,6 @@
-allowAccessWhileBuilding: true
-
 assets:
   - d7testsite.sql.gz
-
+allowAccessWhileBuilding: true
 steps:
   - name: Probo site setup
     plugin: Drupal
