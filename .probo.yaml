@@ -1,4 +1,26 @@
-image: proboci/ubuntu-14.04-lamp:php-7.1
+image: proboci/ubuntu-14.04-lamp:php7.1-nightly
+assets:
+  - d7testsite.sql.gz
+allowAccessWhileBuilding: true
 steps:
-  - name: Update Composer
-    command: '/usr/local/bin/composer self-update'
+  - name: Probo site setup
+    plugin: Drupal
+    drupalVersion: 7
+    database: d7testsite.sql.gz
+    databaseGzipped: true
+    databaseUpdates: false
+    revertFeatures: false
+    clearCaches: true
+    phpIniOptions:
+      curl.cainfo: /root/cacert.pem
+  - name: Generate login link.
+    command: "drush --root='/var/www/html/' uli"
+  - name: Test BUILD_URL VAR.
+    plugin: Script
+    script:
+      - printenv
+  - name: Curl page.
+    plugin: Script
+    script:
+      - ping $BUILD_DOMAIN
+      - curl -I $BUILD_DOMAIN
