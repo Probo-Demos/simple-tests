@@ -1,3 +1,4 @@
+allowAccessWhileBuilding: true
 image: proboci/ubuntu-14.04-lamp:php7.1-nightly
 assets:
   - d7testsite.sql.gz
@@ -10,7 +11,6 @@ steps:
     databaseUpdates: false
     revertFeatures: false
     clearCaches: true
-    allowAccessWhileBuilding: true
   - name: Generate login link.
     command: "drush --root='/var/www/html/' uli"
   - name: Test BUILD_URL VAR.
