@@ -1,7 +1,5 @@
 image: proboci/ubuntu-14.04-lamp:php-7.1
 
-allowAccessWhileBuilding: true
-
 assets:
   - d7testsite.sql.gz
 
