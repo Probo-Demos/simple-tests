@@ -1,0 +1,32 @@
+image: proboci/ubuntu-14.04-lamp:php-7.1d
+
+allowAccessWhileBuilding: true
+
+assets:
+  - d7testsite.sql.gz
+
+steps:
+  - name: Probo site setup
+    plugin: Drupal
+    drupalVersion: 7
+    database: d7testsite.sql.gz
+    databaseGzipped: true
+    databaseUpdates: false
+    revertFeatures: false
+    clearCaches: true
+  - name: Generate login link.
+    command: "drush --root='/var/www/html/' uli"
+  - name: Test BUILD_URL VAR.
+    plugin: Script
+    script:
+      - printenv
+  - name: Curl page.
+    plugin: Script
+    script:
+      - ping $BUILD_DOMAIN
+      - curl -I $BUILD_DOMAIN
+  - name: Tenon API Test
+    plugin: Script
+    script:
+      - curl -X POST -H Content-Type:application/x-www-form-urlencoded -H Cache-Control:no-cache -d
+          "url=$BUILD_DOMAIN&key=5af62f9909783f976e38fb8c6e2faffd" https://tenon.io/api/
