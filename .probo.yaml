@@ -1,5 +1,7 @@
 image: proboci/ubuntu-14.04-lamp:php-7.1
 
+allowAccessWhileBuilding: true
+
 assets:
   - d7testsite.sql.gz
 
@@ -23,3 +25,8 @@ steps:
     script:
       - ping $BUILD_DOMAIN
       - curl -I $BUILD_DOMAIN
+  - name: Tenon API Test
+    plugin: Script
+    script:
+      - curl -X POST -H Content-Type:application/x-www-form-urlencoded -H Cache-Control:no-cache -d
+          'url=$BUILD_DOMAIN&key=5af62f9909783f976e38fb8c6e2faffd' https://tenon.io/api/
